@@ -11,7 +11,6 @@ import ru.uwurahara.todolistapplication.model.Task;
 import ru.uwurahara.todolistapplication.repository.TaskRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -66,14 +65,14 @@ public class TaskServiceImpl implements TaskService{
         task = taskRepository.save(task);
 
         return new TaskResponseDto(task.getId(), task.getTitle(), task.getDescription(), task.getDeadline(), task.getStatus());
-    };
+    }
 
     @Override
     @Transactional
     public void delete(int id){
         taskRepository.findById(id).orElseThrow();
         taskRepository.deleteById(id);
-    };
+    }
 
     @Override
     @Transactional
@@ -84,7 +83,7 @@ public class TaskServiceImpl implements TaskService{
             tasks = taskRepository.findByStatus(filterByStatus);
         } else {
             tasks = taskRepository.findAll();
-        };
+        }
 
         List<TaskResponseDto> tasksDto = tasks.stream()
                 .map(task -> new TaskResponseDto(task.getId(), task.getTitle(), task.getDescription(), task.getDeadline(), task.getStatus()))
@@ -123,8 +122,8 @@ public class TaskServiceImpl implements TaskService{
                 break;
             default:
                 break;
-        };
+        }
 
         return tasksDto;
-    };
+    }
 }

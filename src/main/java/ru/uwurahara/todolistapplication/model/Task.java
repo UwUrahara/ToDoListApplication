@@ -29,13 +29,6 @@ public class Task {
 
     public Task() { }
 
-    public Task(String title, LocalDate deadline) {
-        this.title = title;
-        this.deadline = deadline;
-        this.description = "--";
-        this.status = Status.TODO;
-    }
-
     public Task(String title, String description, LocalDate deadline) {
         this.title = title;
         this.description = description;
@@ -44,7 +37,6 @@ public class Task {
     }
 
     public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }

@@ -18,35 +18,35 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity create(@RequestBody TaskRequestDto task){
+    public ResponseEntity<Object> create(@RequestBody TaskRequestDto task){
         try {
             return ResponseEntity.ok(taskService.create(task));
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Произошла ошибка");
         }
-    };
+    }
 
     @PutMapping
-    public ResponseEntity update(@RequestBody TaskRequestDto task, @RequestParam int id){
+    public ResponseEntity<Object> update(@RequestBody TaskRequestDto task, @RequestParam int id){
         try {
             return ResponseEntity.ok(taskService.update(id, task));
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Произошла ошибка");
         }
-    };
+    }
 
     @DeleteMapping
-    public ResponseEntity delete(@RequestParam int id){
+    public ResponseEntity<Object> delete(@RequestParam int id){
         try {
             taskService.delete(id);
             return ResponseEntity.ok().build();
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Произошла ошибка");
         }
-    };
+    }
 
     @GetMapping
-    public ResponseEntity findAll(@RequestParam Status filterByStatus,
+    public ResponseEntity<Object> findAll(@RequestParam Status filterByStatus,
                                   @RequestParam SortBy sortBy,
                                   @RequestParam SortDirection sortDirection){
         try {
@@ -54,7 +54,5 @@ public class TaskController {
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Произошла ошибка");
         }
-    };
-
-
+    }
 }
