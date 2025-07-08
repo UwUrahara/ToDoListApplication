@@ -89,6 +89,7 @@ public class TaskServiceImpl implements TaskService{
                 .map(task -> new TaskResponseDto(task.getId(), task.getTitle(), task.getDescription(), task.getDeadline(), task.getStatus()))
                 .collect(Collectors.toList());
 
+        if (sortBy == null){ return tasksDto; }
         switch (sortBy) {
             case STATUS:
                 switch (sortDirection) {
