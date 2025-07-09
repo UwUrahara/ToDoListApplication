@@ -1,13 +1,17 @@
 package ru.uwurahara.todolistapplication;
 
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
+import org.springframework.context.annotation.Import;
 import ru.uwurahara.todolistapplication.dto.TaskRequestDto;
 import ru.uwurahara.todolistapplication.dto.TaskResponseDto;
 import ru.uwurahara.todolistapplication.model.Task;
 import ru.uwurahara.todolistapplication.repository.TaskRepository;
-import ru.uwurahara.todolistapplication.service.TaskService;
 import ru.uwurahara.todolistapplication.service.TaskServiceImpl;
 import ru.uwurahara.todolistapplication.enumerations.SortBy;
 import ru.uwurahara.todolistapplication.enumerations.SortDirection;
@@ -23,9 +27,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@Import(ValidationAutoConfiguration.class)
 public class TaskServiceImplTest {
-    private final TaskRepository taskRepository = mock(TaskRepository.class);
-    private final TaskService taskService = new TaskServiceImpl(taskRepository);
+    @InjectMocks
+    private TaskServiceImpl taskService;
+
+    @Mock
+    private TaskRepository taskRepository;
 
     @Test
     void create_shouldSuccessfullyCreateTask() {
@@ -71,11 +79,10 @@ public class TaskServiceImplTest {
         );
 
         // When & Then
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        assertThrows(
+                ConstraintViolationException.class,
                 () -> taskService.create(invalidRequest)
         );
-        assertEquals("Название задачи не может быть пустым", exception.getMessage());
         verify(taskRepository, never()).save(any());
     }
 
